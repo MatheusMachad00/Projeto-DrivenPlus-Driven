@@ -2,7 +2,8 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
 
-
+import Login from "./components/login";
+import Signup from "./components/signup";
 
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    
+                    <Route path="/" element={<Login />} />
+                    <Route path="/sign-up" element={<Signup />} />
                 </Routes>
             </BrowserRouter>
         </>
