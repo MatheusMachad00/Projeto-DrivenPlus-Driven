@@ -1,19 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useState, useContext, Fragment  } from "react";
 import axios from "axios";
 import { ThreeDots } from 'react-loader-spinner';
 import { MainChunk } from "./style"
 
-import Type1 from './../../assets/Group1.svg'
-import Type2 from './../../assets/Group2.svg'
-import Type3 from './../../assets/Group3.svg'
 import TokenContext from "../../context/TokenContext";
 
 
 
-export default function Subscriptions() {
-    const {userToken} = useContext(TokenContext);
+export default function Subscriptions({setSubID}) {
+    const { userToken } = useContext(TokenContext);
     const [types, setTypes] = useState([]);
+    const navigate = useNavigate();
+    const { IDSubscription } = useParams();
 
     useEffect(() => {
         const config = {
@@ -26,20 +25,28 @@ export default function Subscriptions() {
         const request = axios.get(LINK_API, config);
         request.then(response => {
             const { data } = response;
-            setTypes(data);
+            setTypes([...data]);
         });
         request.catch(err => console.log(err.response));
     }, []);
 
+    /* function subscriptionSelected(id){
+        setSubID(id);
+        navigate(`/subscriptions/${id}`);
+    } */
 
     return (
         <MainChunk>
             <h1>Escolha seu Plano</h1>
-            {types.map((types) =>(
-                <div key={types.id}>
-                    <img src={types.image} alt={types.id} />
-                    <p>R${types.price}</p>
-                </div>
+            {types.map((type) => (
+                <Fragment key={type.id}>
+                <Link to={`/subscriptions/${type.id}`}>
+                    <div onClick={() => setSubID(type.id)}>
+                        <img src={type.image} alt={type.id} />
+                        <p>R${type.price}</p>
+                    </div>
+                </Link>
+                </Fragment>
             ))};
         </MainChunk>
     );
