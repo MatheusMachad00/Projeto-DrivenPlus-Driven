@@ -1,7 +1,8 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState, useContext, Fragment } from "react";
 import axios from "axios";
-import { SubDetails, Detail, BoxBenefits, Clipboard, Cash, Logo, Form } from "./style.js"
+import { SubDetails, Detail, BoxBenefits, Clipboard, Cash, Logo, Form, Loading } from "./style.js"
+import { ThreeDots } from 'react-loader-spinner';
 
 
 import TokenContext from "../../context/TokenContext";
@@ -45,8 +46,11 @@ export default function SubscriptionDetails({ subID }) {
                     <h2>Benefícios: </h2>
                 </Detail>
                 <div>
-                    <p>1. Brindes exclusivos </p>
-                    <p>2. Materiais bônus de web</p>
+                    {subType.perks ? 
+                        subType.perks.map((perk, index) => (
+                            <p key={index}>{index+1}. {perk.title}</p>
+                        ))
+                    : <Loading><ThreeDots color="#FFFFFF" height={25} align='center' /></Loading>}
                 </div>
             </BoxBenefits>
             <BoxBenefits>
@@ -75,6 +79,11 @@ export default function SubscriptionDetails({ subID }) {
 
 /* {subType.perks.map((perk,index) =>(
             <p key={index}>{perk.id}. {perk.title}</p>
-        ))} */
+        ))}
+        
+        
+        
+        <p>1. Brindes exclusivos </p>
+                    <p>2. Materiais bônus de web</p>*/
 
 /*  {!subType.perks  ? nada : map} */

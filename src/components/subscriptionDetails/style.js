@@ -45,7 +45,7 @@ export const BoxBenefits = styled.div`
 display: flex;
 flex-direction: column;
 width: 300px;
-height: 50px;
+/* height: 50px; */
 margin-bottom: 30px;
 
 p{
@@ -89,6 +89,7 @@ input{
     height: 52px;
     width: 299px;
     margin-bottom: 8px;
+    border: none;
 }
 
 div input{
@@ -104,5 +105,12 @@ button{
     height: 52px;
     background: #FF4791;
     border-radius: 8px;
+    border: none;
 }
+`
+
+export const Loading = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
 `
