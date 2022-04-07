@@ -21,7 +21,7 @@ h1{
 export const Logo = styled.img`
     width: 140px;
     height: 95px;
-    margin-top: 87px;
+    margin-top: 60px;
     margin-bottom: 12px;
 `
 

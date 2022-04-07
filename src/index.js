@@ -7,6 +7,7 @@ import Signup from "./components/signup";
 import Subscriptions from "./components/subscriptions";
 import SubscriptionDetails from "./components/subscriptionDetails";
 import ConfirmScreen from "./components/confirmScreen";
+import Home from "./components/home";
 
 import TokenContext from "./context/TokenContext";
 
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/subscriptions" element={<Subscriptions setSubID={setSubID}/>} />
                     <Route path="/subscriptions/:IDSubscription" element={<SubscriptionDetails subID={subID}/>} />
                     <Route path="/teste" element={<ConfirmScreen />} />
+                    <Route path="/teste2" element={<Home />} />
                 </Routes>
             </BrowserRouter>
         </TokenContext.Provider>
