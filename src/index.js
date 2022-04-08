@@ -10,25 +10,26 @@ import ConfirmScreen from "./components/confirmScreen";
 import Home from "./components/home";
 
 import TokenContext from "./context/TokenContext";
+import UserContext from './context/UserContext';
 
 function App() {
-    const [userName, setUserName] = useState("");
+    const [userData, setUserData] = useState({});
     const [userToken, setUserToken] = useState("");
-    const [userSubscription, setUserSubscription] = useState("");
     const [subID, setSubID] = useState("");  
 
     return (
         <TokenContext.Provider value={{userToken, setUserToken}}>
+            {/* <UserContext.Provider value={{userData, setUserData}}> */}
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<Login setUserData={setUserData}/>} />
                     <Route path="/sign-up" element={<Signup />} />
                     <Route path="/subscriptions" element={<Subscriptions setSubID={setSubID}/>} />
                     <Route path="/subscriptions/:IDSubscription" element={<SubscriptionDetails subID={subID}/>} />
-                    <Route path="/teste" element={<ConfirmScreen />} />
-                    <Route path="/teste2" element={<Home />} />
+                    <Route path="/home" element={<Home userData={userData}/>} />
                 </Routes>
             </BrowserRouter>
+           {/*  </UserContext.Provider> */}
         </TokenContext.Provider>
     )
 }

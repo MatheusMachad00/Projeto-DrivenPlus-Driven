@@ -7,7 +7,7 @@ import { Warning, PopUp, CloseButton, BodyBackground } from "./style";
 import close from "./../../assets/fa-solid_window-close.svg"
 
 
-export default function ConfirmScreen({closePopUp, signPlan}) {
+export default function ConfirmScreen({closePopUp, confrim}) {
     return (
         <BodyBackground>
             <CloseButton onClick={() => closePopUp()} src={close} alt="botão de fechar" />
@@ -17,7 +17,7 @@ export default function ConfirmScreen({closePopUp, signPlan}) {
                     <p>Driven Plus (R$ 39,99)?</p>
                     <div>
                         <button onClick={() => closePopUp()} className="noButton">Não</button>
-                        <button onClick={() => signPlan()} className="yesButton">Sim</button>
+                        <button onClick={() => confrim()} className="yesButton">Sim</button>
                     </div>
                 </Warning>
             </PopUp>

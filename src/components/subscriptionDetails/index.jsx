@@ -10,6 +10,8 @@ import clipboard from "./../../assets/fluent_clipboard-task-list-rtl-20-regular.
 import cash from "./../../assets/fa-solid_money-bill-wave.svg"
 import ConfirmScreen from "../confirmScreen/index.jsx";
 
+/* import UserContext from './../../context/UserContext'; */
+
 
 export default function SubscriptionDetails({ subID }) {
     const { userToken } = useContext(TokenContext);
@@ -19,7 +21,8 @@ export default function SubscriptionDetails({ subID }) {
     const [securityNumber, setSecurityNumber] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
     const [popUpScreen, setPopUpScreen] = useState(false);
-
+    /* const {userData, setUserData} = useContext(UserContext); */
+    const navigate = useNavigate();
 
     useEffect(() => {
         const config = {
@@ -32,52 +35,46 @@ export default function SubscriptionDetails({ subID }) {
         const request = axios.get(LINK_API, config);
         request.then(response => {
             const { data } = response;
-            /* console.log(data); */
             setSubType({ ...data });
         });
         request.catch(err => console.log(err.response));
     }, []);
 
-    function signPlan(event){
+    function signPlan(){
         const config = {
             headers: {
                 Authorization: `Bearer ${userToken}`
             }
         };
-        event.preventDefault();
         const LINK_POST = "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions"
         const request = axios.post(LINK_POST,{
-            membershipId: {subID},
+            membershipId: subID,
             cardName,
             cardNumber,
             securityNumber,
             expirationDate}, config);
+
         request.then(response => {
             const {data} = response;
             console.log(data);
+            /* setUserData(data); */
+            navigate("/");
         });
-        request.catch(err => console.log(err.response));
+        request.catch(err => console.log(err.response, subID, typeof subID));
     }
 
     function popUp(event){
         event.preventDefault();
         if (popUpScreen) setPopUpScreen(false);
         if (!popUpScreen) setPopUpScreen(true);
-        /* console.log(cardName);
-        console.log(cardNumber);
-        console.log(securityNumber);
-        console.log(expirationDate); */
     }
 
-    function confirm (event){
-        event.preventDefault();
-        popUp();
-        signPlan()
-    }
 
     return (
         <>
-        {popUpScreen && <ConfirmScreen closePopUp={(popUpScreen) => confirm()} />}
+        {popUpScreen && <ConfirmScreen 
+        closePopUp={(popUpScreen) => setPopUpScreen(popUpScreen)} 
+        confrim={signPlan}/>}
         <SubDetails>
             <div>
                 <Logo src={subType.image} alt={subType.name} />
@@ -111,14 +108,15 @@ export default function SubscriptionDetails({ subID }) {
                 <input 
                 type="text" 
                 placeholder="Nome impresso no cartão" 
-                /* required */
+                required
                 onChange={e => setCardName(e.target.value)}
                 value={cardName}/>
 
                 <input 
                 type="text" 
                 placeholder="Digitos do cartão"
-                /* required */
+                maxLength="16"
+                required
                 onChange={e => setCardNumber(e.target.value)}
                 value={cardNumber}/>
 
@@ -126,15 +124,16 @@ export default function SubscriptionDetails({ subID }) {
                     <input 
                     className="cvv" 
                     type="number" 
-                    placeholder="Código de segurança" 
-                    /* required */
+                    placeholder="Código de segurança"
+                    maxLength="3" 
+                    required
                     onChange={e => setSecurityNumber(e.target.value)}
                     value={securityNumber}/>
 
                     <input 
                     type="text" 
                     placeholder="Validade" 
-                    /* required */
+                    required
                     onChange={e => setExpirationDate(e.target.value)}
                     value={expirationDate}/>
                 </div>
@@ -144,20 +143,3 @@ export default function SubscriptionDetails({ subID }) {
         </>
     );
 }
-
-/* 
-
-adicionar espaço a cada 4 digitos
-
-let dummyTxt='1234567890123456';
-
-let joy=dummyTxt.match(/.{1,4}/g);
-console.log(joy.join(' '));
-
-adicionar barra a cada 2 digitos
-
-let dummyTxt='1203';
-
-let joy=dummyTxt.match(/.{1,2}/g);
-console.log(joy.join('/'));
-*/

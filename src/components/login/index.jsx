@@ -1,18 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { ThreeDots } from 'react-loader-spinner';
 import { LoginScreen } from "./style"
 
 import Logo from './../../assets/Driven_white 1.svg'
 import TokenContext from "../../context/TokenContext";
+/* import UserContext from "../../context/UserContext"; */
 
 
-export default function Login() {
+export default function Login({setUserData}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const {userToken, setUserToken} = useContext(TokenContext);
+    /* const {userData, setUserData} = useContext(UserContext); */
     const navigate = useNavigate();
 
     function login(event){
@@ -23,9 +25,15 @@ export default function Login() {
         const request = axios.post(LINK_API,{ email, password });
         request.then(response => {
             const { data } = response;
-            /* console.log(data); */
+            console.log(data);
             setUserToken(data.token);
-            navigate("/subscriptions");
+            setUserData(data);
+            /* setUserData(data.membership);
+            console.log(userData); */
+            
+            if(data.membership !== null){
+                navigate("/home")
+            }else{navigate("/subscriptions")};
         })
         request.catch(err => {
             console.log(err.response);

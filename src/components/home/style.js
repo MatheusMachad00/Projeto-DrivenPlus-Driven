@@ -87,3 +87,9 @@ div{
     background-color: #FF4747;
 }
 `
+
+export const Loading = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+`

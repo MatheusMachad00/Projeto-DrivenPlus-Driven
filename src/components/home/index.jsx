@@ -1,25 +1,33 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import { ThreeDots } from 'react-loader-spinner';
 
-import { ImgLogo, ImgIcon, Title, Benefits, Footer } from "./style";
+import { ImgLogo, ImgIcon, Title, Benefits, Footer, Loading } from "./style";
 
-import Logo from './../../assets/Group1.svg'
+import TokenContext from "../../context/TokenContext";
+import UserContext from './../../context/UserContext';
+
 import Profile from './../../assets/fa-solid_user-circle.svg'
 
-export default function Home() {
+export default function Home({userData}) {
+    const { userToken } = useContext(TokenContext);
+    /* const { userData } = useContext(TokenContext); */
+    console.log(userData);
     return (
         <>
             <div>
-                <ImgLogo src={Logo} alt="logo" />
+                <ImgLogo src={userData.membership.image} alt="logo" />
                 <ImgIcon src={Profile} alt="profile icon" />
             </div>
-            <Title>Olá. Fulano</Title>
+            <Title>Olá, {userData.name}</Title>
             <Benefits>
-                <div>Solicitar brindes</div>
-                <div>Solicitar brindes</div>
-                <div>Solicitar brindes</div>
-                <div>Solicitar brindes</div>
+            {userData.membership.perks ? 
+                        userData.membership.perks.map((perk, index) => (
+                            <a key={index} href={perk.link}>
+                            <div>{perk.title}</div>
+                            </a>
+                        ))
+                    : <Loading><ThreeDots color="#FFFFFF" height={25} align='center' /></Loading>}
             </Benefits>
             <Footer>
                 <Link to={"/subscriptions"}>
