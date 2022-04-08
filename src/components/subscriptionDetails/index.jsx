@@ -56,8 +56,9 @@ export default function SubscriptionDetails({ subID }) {
 
         request.then(response => {
             const {data} = response;
-            console.log(data);
+            /* console.log(data); */
             /* setUserData(data); */
+            alert("Plano assinado com sucesso! Faça login novamente para aproveitar.")
             navigate("/");
         });
         request.catch(err => console.log(err.response, subID, typeof subID));

@@ -25,7 +25,7 @@ export default function Login({setUserData}) {
         const request = axios.post(LINK_API,{ email, password });
         request.then(response => {
             const { data } = response;
-            console.log(data);
+            /* console.log(data); */
             setUserToken(data.token);
             setUserData(data);
             /* setUserData(data.membership);
